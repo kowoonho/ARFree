@@ -9,7 +9,7 @@ Woonho Ko, Jin Bok Park, <a href="https://scholar.google.com/citations?user=hjXM
 
 [![arXiv](https://img.shields.io/badge/arXiv-2409.08026-b31b1b.svg)](https://arxiv.org/abs/2505.22111)
 
-**ICIP 2025**
+**Accepted by ICIP 2025**
 
 This is the official implementation of **ARFree**.
 
@@ -34,14 +34,32 @@ pip install -r requirements.txt
 pip install natten==0.17.3+torch240cu118 -f https://shi-labs.com/natten/wheels/
 ```
 
+## Dataset
+We use the following datasets for training and evaluation:
 
-## Training
+**KTH**
+- Processed KTH dataset: [https://drive.google.com/file/d/1RbJyGrYdIp4ROy8r0M-lLAbAMxTRQ-sd/view?usp=sharing](https://drive.google.com/file/d/1RbJyGrYdIp4ROy8r0M-lLAbAMxTRQ-sd/view?usp=sharing)
+
+**NATOPS**
+- Processed NATOPS dataset: **TODO**
+
+
+
+
+## Training and Evaluation
+
+**Training**
+To train the ARFree model, revise the 'config/{dataset}.yaml' file according to your dataset and training settings. 
+Then, run the following command to start the training process:
 
 ```bash
 sh scripts/train.sh
 ```
 
-## Inference 
+
+**Evaluation**
+To evaluate the trained ARFree model, revise the 'config/{dataset}.yaml' file according to your dataset and evaluation settings. 
+Then, run the following command to start the evaluation process:
 
 ```bash
 sh scripts/valid.sh
