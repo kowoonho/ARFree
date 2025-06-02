@@ -49,7 +49,8 @@ We use the following datasets for training and evaluation:
 ## Training and Evaluation
 
 **Training**
-To train the ARFree model, modify the 'config/{dataset}.yaml' file according to your folder paths and training settings.
+<br/>
+To train the ARFree model, modify the 'config/{dataset}.yaml' file according to your folder paths and training settings. <br/>
 Then, run the following command to start the training process:
 
 ```bash
@@ -58,7 +59,8 @@ sh scripts/train.sh
 
 
 **Evaluation**
-To evaluate the trained ARFree model, modify the 'config/{dataset}.yaml' file according to your folder paths and evaluation settings.
+<br/>
+To evaluate the trained ARFree model, modify the 'config/{dataset}.yaml' file according to your folder paths and evaluation settings. <br/>
 Then, run the following command to start the evaluation process:
 
 ```bash
