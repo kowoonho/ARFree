@@ -1,0 +1,146 @@
+project_name: Direct_HDiT
+model_name: kth_arfree
+
+save_dir: /home/woonho/midas/Results/video_prediction/KTH
+data_dir: /home/woonho/midas/Dataset/video_prediction/KTH
+# save_dir: /path/to/save_dir/KTH
+# data_dir: /path/to/data_dir/KTH
+
+dataset:
+  type: KTH
+  direct:
+    enable: true
+    max_temporal_distance: 30
+    is_chunk: true
+  dataset_params:
+    data_dir: ${data_dir}
+    frame_shape: 64
+    num_action_classes: 6
+  train_params:
+    type: train
+    cond_frames: 10
+    pred_frames: 5
+    total_frames: 15
+    total_videos: 120000
+    batch_size: 4
+    dataloader_workers: 8
+    consistency_pred: true
+
+  valid_params:
+    type: valid
+    cond_frames: 10
+    pred_frames: 30
+    total_frames: 40
+    batch_size: 64
+    total_videos: 128
+
+
+model:
+  type: ARFree_prediction
+  denoiser:
+    type: HDiT_EDM_consistency
+    model_params:
+      in_channels: 3
+      out_channels: 3
+      motion_dim: 256
+      patch_size: [4, 4]
+      depth_levels: [2, 10]
+      width_levels: [256, 512]
+      d_ff_levels: [768, 1536]
+      self_attn_specs: [
+        {type: neighborhood, d_head: 64, kernel_size: 7},
+        {type: global, d_head: 64},
+      ]
+      dropout_levels: [0., 0., 0.]
+      mapping_depth: 2
+      mapping_width: 256
+      mapping_d_ff: 768
+      mapping_dropout: 0.
+      mapping_cond_dim: 0
+      motion_cond_type: concat
+      null_cond_prob: 0.0
+      cond_scale: 1.0
+
+  motion_encoder:
+    type: MotionConditioning
+    encode_type: global
+    model_params:
+      in_channels: 3
+      model_channels: 64
+      n_downs: 2
+  motion_predictor:
+    type: MotionPredictor
+    model_params:
+     dim: ${model.denoiser.model_params.motion_dim}
+     attn_dim_head: 64
+     depth: 6
+     tc: ${dataset.train_params.cond_frames}
+     tp: ${dataset.train_params.pred_frames}
+     num_classes: ${dataset.dataset_params.num_action_classes}
+
+  diffusion:
+    type: EDM_karras
+    diffusion_params:
+      image_size: ${dataset.dataset_params.frame_shape}
+      num_frames: ${dataset.train_params.total_frames}
+      channels: 3
+      num_sample_steps: 50
+      sigma_min: 1e-3
+      sigma_max: 1e3
+      sigma_data: 0.5
+      rho: 7.0
+      weighting: 'soft-min-snr'
+      sampler_type: 'lms'
+      overlap_consistency_loss: true
+
+    noise_params:
+      noise_sampling_method: 'pyoco_mixed'
+      noise_alpha: 1.0
+
+
+
+checkpoint:
+  # resume: ${save_dir/checkpoints/${model_name}/vdm_steps_00000
+  resume: null
+  output: ${save_dir}/checkpoints/${model_name}
+
+train_params:
+  seed: 0
+  save_dir: ${save_dir}
+  save_ckpt_freq: 10000
+  valid_freq: 10000
+  num_repeats: 1
+  max_epochs: 1000
+  max_steps: 200000
+
+  mixed_precision: "no" #["no", "fp16", "bf16"],  
+  grad_accumulation_steps: 2
+
+  ema:
+    enable: True
+    decay: 0.995
+    start: 0
+    update_freq: 10
+
+
+  optimizer:
+    type: AdamW
+    params:
+      eps: 1e-8
+      betas: [0.9, 0.999]
+      lr: 1e-4
+      weight_decay: 1e-2
+
+visualize:
+  enable: true
+  save_pic: true
+  save_gif: true
+
+
+loss_weight:
+  overlap_consistency_loss: 0.1
+
+
+wandb:
+  enable: false
+  
