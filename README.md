@@ -3,13 +3,13 @@ Autoregression-free video prediction using <br/> diffusion model for mitigating 
 </h1>
 <h4 align="center">
 
-Woonho Ko, Jin Bok Park, Il Yong Chun
+Woonho Ko, Jin Bok Park, <a href="https://scholar.google.com/citations?user=hjXMGEIAAAAJ&hl=ko">Il Yong Chun</a><br>
 
 <h4 align="center">
 
 [![arXiv](https://img.shields.io/badge/arXiv-2409.08026-b31b1b.svg)](https://arxiv.org/abs/2505.22111)
 
-This is the official implementation of <span style="color:blue;"><strong>ARFree</strong></span>.
+This is the official implementation of **ARFree**.
 
 
 </h4>
