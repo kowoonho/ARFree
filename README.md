@@ -3,7 +3,7 @@ Autoregression-free video prediction using <br/> diffusion model for mitigating 
 </h1>
 <h4 align="center">
 
-Woonho Ko, Jin Bok Park, <a href="https://scholar.google.com/citations?user=hjXMGEIAAAAJ&hl=ko">Il Yong Chun</a><br>
+<a href="https://scholar.google.com/citations?hl=ko&user=bl538r8AAAAJ">Woonho Ko</a>, Jin Bok Park, <a href="https://scholar.google.com/citations?user=hjXMGEIAAAAJ&hl=ko">Il Yong Chun</a><br>
 
 <h4 align="center">
 
